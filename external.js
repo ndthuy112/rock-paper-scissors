@@ -1,27 +1,85 @@
-const options = ["rock", "paper", "scissors", "rock"];
-
-function getComputerChoice() {
-    choice = Math.floor(Math.random()*3);
-    return choice
+let playerScore = 0;
+let computerScore = 0;
+let roundNumber = 0;
+while (roundNumber < 5)
+{
+    playRound();
+    roundNumber++;
 }
 
-function getPlayerChoice() {
-    return prompt("rock/paper/scissors").toLowerCase();
+function askForPlayerChoice() {
+    let playerChoice = ""
+    while (true)
+    {
+        playerChoice = prompt("What's your choice?").toLowerCase();
+        if (playerChoice !== "rock" && playerChoice !== "paper" && playerChoice !== "scissors") 
+        {
+            console.log("Invalid choice!");
+        }
+        else
+        {
+            break;
+        }
+    }
+    return playerChoice;
 }
 
-computerSelection = getComputerChoice();
-playerSelection = getPlayerChoice();
-
-function result(computerSelection, playerSelection) {
-    if (playerSelection == options[computerSelection]) {
-        return "Tie!";
+function generateComputerChoice () {
+    let computerNumber = Math.floor(Math.random() * 2)
+    let computerChoice;
+    switch (computerNumber)
+    {
+        case 0:
+            computerChoice = "rock";
+            break;
+        case 1:
+            computerChoice = "paper";
+            break;
+        case 2:
+            computerChoice = "scissors";
+            break;
+        default:
+            throw new Error("Failed to get computer choice");
     }
-    else if (playerSelection == options[computerSelection + 1]) {
-        return `You win! ${playerSelection} beats ${options[computerSelection]}`;
-    }
-    else {
-        return `You lose! ${playerSelection} loses to ${options[computerSelection]}`;
-    }
+    return computerChoice;
 }
 
-console.log(result(computerSelection, playerSelection));
+function playRound () {
+    let playerChoice = askForPlayerChoice();
+    let computerChoice = generateComputerChoice();
+    console.log(`You selected ${playerChoice}. Computer selected ${computerChoice}.`)
+    if (playerChoice === computerChoice) {
+        console.log("Draw.");
+    }
+    else if (playerChoice === "rock") {
+        if (computerChoice === "paper") {
+            console.log("You lose!");
+            computerScore++;
+        }
+        else {
+            console.log("You won!");
+            playerScore++;
+        }
+    }
+    else if (playerChoice === "paper") {
+        if (computerChoice === "scissors") {
+            console.log("You lose!");
+            computerScore++;
+        }
+        else {
+            console.log("You won!");
+            playerScore++;
+        }
+    }
+    else if (playerChoice === "scissors") {
+        if (computerChoice === "rock") {
+            console.log("You lose!");
+            computerScore++;
+        }
+        else {
+            console.log("You won!");
+            playerScore++;
+        }
+    }
+    console.log(`Your score: ${playerScore}. Computer score: ${computerScore}`)
+}
